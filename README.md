@@ -1,5 +1,13 @@
 # Getting Started with Create React App
 
+#The Website Looks Like This
+
+![wewatherApp](https://user-images.githubusercontent.com/100140781/219829493-8df8360d-16c8-47ea-a3e1-5e4fd78ec31f.png)
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
