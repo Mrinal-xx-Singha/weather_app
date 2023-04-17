@@ -24,6 +24,7 @@ function App() {
     }
   }
 
+
   return (
     <div className="app">
       <div className="search">
@@ -55,6 +56,11 @@ function App() {
           {/* Temperature is displayed by fetching the data from the api using data.mai */}
 
           <div className="temp">
+
+            {/* {data.main ? <h1>{data.main.temp-32/1.8.toFixed()}°C</h1> : null} */}
+
+            {data.main ? <h1>{((data.main.temp - 32) * (5/9)).toFixed()}°C</h1> : null}
+  
             {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
           </div>
           <div className="description">

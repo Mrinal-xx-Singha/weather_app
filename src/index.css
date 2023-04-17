@@ -99,3 +99,11 @@ h1 {
 .bold {
   font-weight: 700;
 }
+.temp {
+  color: #fff;
+  display: inline-block;
+  align-items: center;
+  margin: 10px;
+  word-spacing: 2px;
+  padding: 10px;
+}
