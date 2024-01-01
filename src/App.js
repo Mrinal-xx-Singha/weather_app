@@ -9,11 +9,22 @@ function App() {
   const [location, setLocation] = useState('')
 
   //url: default url provided by API Open Weather Map  
+  const genereateApiUrl = () =>{
+    return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=24d614f3804a5411503d24faaf83be10
+    `
+  }
+  const url = genereateApiUrl();
+ 
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=24d614f3804a5411503d24faaf83be10
-  `
+  // Temperature Conversion Logic
+  const convertToFahrenheit = (temp ) =>{
+    return ((temp -32) * (5/9)).toFixed() + "°F";
+  } 
+  const convertToCelsius = (temp ) =>{
+    return ((temp -32) * (5/9)).toFixed() + "°C";
+  }
+
   // SearchLocation Function 
-
   const searchLocation = (event) => {
     if (event.key === 'Enter') {
       axios.get(url).then((response) => {
@@ -59,9 +70,8 @@ function App() {
 
             {/* {data.main ? <h1>{data.main.temp-32/1.8.toFixed()}°C</h1> : null} */}
 
-            {data.main ? <h1>{((data.main.temp - 32) * (5/9)).toFixed()}°C</h1> : null}
-  
-            {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
+           <h1>{convertToCelsius(data.main.temp)}</h1>
+           <h1>{convertToFahrenheit(data.main.temp)}</h1>
           </div>
           <div className="description">
             {data.weather ? <p>{data.weather[0].main}</p> : null}
