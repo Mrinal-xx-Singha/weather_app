@@ -16,6 +16,7 @@ function App() {
     return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=24d614f3804a5411503d24faaf83be10`;
   };
 
+  // Temperature Conversion Logic
   const convertToFahrenheit = (temp) => {
     const fahrenheit = (temp * 9 / 5 + 32).toFixed();
     return `${fahrenheit}°F`;
