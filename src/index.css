@@ -12,6 +12,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #000;
+  color: #fff;
 }
 
 p {
@@ -53,6 +55,9 @@ h1 {
   border: 1px solid rgba(255,255,255, 0.8);
   background: rgba(255,255,255, 0.1);
   color: #f8f8f8;
+  width: 80%;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 ::placeholder {
@@ -103,7 +108,25 @@ h1 {
   color: #fff;
   display: inline-block;
   align-items: center;
+  justify-content: center;
   margin: 10px;
   word-spacing: 2px;
   padding: 10px;
+}
+
+.loading,
+.error{
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.loading {
+  color: rgb(132, 145, 214); /* Choose a color that stands out */
+}
+
+.error {
+  color: rgb(0, 0, 0); /* Choose a color that indicates an error */
 }
