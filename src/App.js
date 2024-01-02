@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 function App() {
@@ -12,9 +12,9 @@ function App() {
 
   //url: default url provided by API Open Weather Map
 
-  const generateApiUrl = useCallback(() => {
+  const generateApiUrl =() => {
     return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=24d614f3804a5411503d24faaf83be10`;
-  },[location]);
+  };
 
   // Temperature Conversion Logic
   const convertToFahrenheit = (temp) => {
@@ -27,7 +27,7 @@ function App() {
     return `${celsius}°C`;
   };
   
-  const fetchData = useCallback(() => {
+  const fetchData = () => {
     setLoading(true);
     setError(null);
 
@@ -42,7 +42,7 @@ function App() {
       .finally(() => {
         setLoading(false);
       });
-  },[generateApiUrl]);
+  };
   // SearchLocation Function
 
   const searchLocation = (event) => {
@@ -56,7 +56,7 @@ function App() {
     //Fetch data when the component mounts
 
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   return (
     <div className="app">
