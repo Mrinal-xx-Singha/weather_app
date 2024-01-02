@@ -1,107 +1,150 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
-
   // data and location
 
-  const [data, setData] = useState({})
-  const [location, setLocation] = useState('')
+  const [data, setData] = useState({});
+  const [location, setLocation] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  //url: default url provided by API Open Weather Map  
-  const genereateApiUrl = () =>{
-    return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=24d614f3804a5411503d24faaf83be10
-    `
-  }
-  const url = genereateApiUrl();
- 
 
-  // Temperature Conversion Logic
-  const convertToFahrenheit = (temp ) =>{
-    return ((temp -32) * (5/9)).toFixed() + "°F";
-  } 
-  const convertToCelsius = (temp ) =>{
-    return ((temp -32) * (5/9)).toFixed() + "°C";
-  }
+  //url: default url provided by API Open Weather Map
 
-  // SearchLocation Function 
-  const searchLocation = (event) => {
-    if (event.key === 'Enter') {
-      axios.get(url).then((response) => {
-        setData(response.data)
-        console.log(response.data)
+  const generateApiUrl = () => {
+    return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=24d614f3804a5411503d24faaf83be10`;
+  };
+
+  const convertToFahrenheit = (temp) => {
+    const fahrenheit = (temp * 9 / 5 + 32).toFixed();
+    return `${fahrenheit}°F`;
+  };
+  
+  const convertToCelsius = (temp) => {
+    const celsius = ((temp - 32) * 5 / 9).toFixed();
+    return `${celsius}°C`;
+  };
+  
+  const fetchData = () => {
+    setLoading(true);
+    setError(null);
+
+    axios.get(generateApiUrl())
+      .then((response) => {
+        setData(response.data);
       })
-      setLocation('')
-    }
-  }
+      .catch((error) => {
+        setError("Search the place in the search bar,Error fetching data.Please try again. ");
 
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  // SearchLocation Function
+
+  const searchLocation = (event) => {
+    if (event.key === "Enter") {
+      fetchData();
+      setLocation("");
+    }
+  };
+
+  useEffect(() => {
+    //Fetch data when the component mounts
+
+    fetchData();
+  }, []);
 
   return (
     <div className="app">
       <div className="search">
         <input
-        // takes the location state 
+          // takes the location state
 
           value={location}
-        //it any change occurs  set event to searchedLocation 
+          //it any change occurs  set event to searchedLocation
 
-          onChange={event => setLocation(event.target.value)}
-
-          //On key press searchLocation 
+          onChange={(event) => setLocation(event.target.value)}
+          //On key press searchLocation
 
           onKeyDown={searchLocation}
-          placeholder='Enter Location'
-          type="text" />
-
+          placeholder="Enter Location"
+          type="text"
+        />
       </div>
 
       <div className="container">
-        <div className="top">
-          <div className="location">
 
-            {/* data state fetch the name from the search and display it  */}
+        {loading && <p className="loading">Loading...</p>}
+        {error && <p className="error">{error}</p>}
 
-            <p>{data.name}</p>
-          </div>
+        {!loading && !error && (
+          <>
+            <div className="top">
+              <div className="location">
+                {/* data state fetch the name from the search and display it  */}
 
-          {/* Temperature is displayed by fetching the data from the api using data.mai */}
+                <p>{data.name}</p>
+              </div>
 
-          <div className="temp">
+              {/* Temperature is displayed by fetching the data from the api using data.mai */}
 
-            {/* {data.main ? <h1>{data.main.temp-32/1.8.toFixed()}°C</h1> : null} */}
+              <div className="temp">
+                {/* {data.main ? <h1>{data.main.temp-32/1.8.toFixed()}°C</h1> : null} */}
+                {data.main && (
+                  <>
+                    <h1>{convertToCelsius(data.main.temp)}</h1>
+                    <h1>{convertToFahrenheit(data.main.temp)}</h1>
+                  </>
+                )}
+              </div>
 
-           <h1>{convertToCelsius(data.main.temp)}</h1>
-           <h1>{convertToFahrenheit(data.main.temp)}</h1>
-          </div>
-          <div className="description">
-            {data.weather ? <p>{data.weather[0].main}</p> : null}
-          </div>
-        </div>
+              <div className="description">
+                {data.weather && data.weather.length > 0 && (
+                  <p>{data.weather[0].main}</p>
+                )}
+              </div>
 
-        {/* Fetching  */}
-
-        {data.name !== undefined &&
-          <div className="bottom">
-
-            <div className="feels">
-              {data.main ? <p className='bold'>{data.main.feels_like.toFixed()}°F</p> : null}
-              <p>Feels Like</p>
             </div>
 
-            <div className="humidity">
-              {data.main ? <p className='bold'>{data.main.humidity}%</p> : null}
-              <p>Humidity</p>
-            </div>
-            
-            <div className="wind">
-              {data.wind ? <p className='bold'>{data.wind.speed.toFixed()} MPH</p> : null}
-              <p>Wind Speed</p>
-            </div>
-          </div>
-        }
+            {/* Fetching  */}
 
+            {data.name && (
+              <div className="bottom">
+                <div className="feels">
+                  {data.main && (
+                    <>
+                      <p className="bold">
+                        {convertToFahrenheit(data.main.feels_like)}
+                      </p>
+                      <p>Feels Like</p>
+                    </>
+                  )}
+                </div>
 
+                <div className="humidity">
+                  {data.main && (
+                    <>
+                      <p className="bold">{data.main.humidity}%</p>
+                      <p>Humidity</p>
+                    </>
+                  )}
+                </div>
 
+                <div className="wind">
+                  {data.wind && (
+                    <>
+                      <p className="bold">{data.wind.speed.toFixed()}MPH</p>
+                      <p>Wind Speed</p>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
