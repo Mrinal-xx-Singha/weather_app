@@ -9,6 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+
   //url: default url provided by API Open Weather Map
 
   const generateApiUrl = () => {
@@ -35,6 +36,7 @@ function App() {
       })
       .catch((error) => {
         setError("Search the place in the search bar,Error fetching data.Please try again. ");
+
       })
       .finally(() => {
         setLoading(false);
@@ -74,6 +76,7 @@ function App() {
       </div>
 
       <div className="container">
+
         {loading && <p className="loading">Loading...</p>}
         {error && <p className="error">{error}</p>}
 
@@ -103,6 +106,7 @@ function App() {
                   <p>{data.weather[0].main}</p>
                 )}
               </div>
+
             </div>
 
             {/* Fetching  */}
