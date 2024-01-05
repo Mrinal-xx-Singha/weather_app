@@ -1,7 +1,8 @@
 # Getting Started with Create React App
 
 # The Website Looks Like This
-## link: [https://illustrious-granita-297c3c.netlify.app/](https://main--illustrious-granita-297c3c.netlify.app/)
+
+[LINK](https://main--illustrious-granita-297c3c.netlify.app/)
 
 
 
